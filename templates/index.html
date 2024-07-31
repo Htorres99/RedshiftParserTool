@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postgres to Redshift Query Translator</title>
+    <style>
+        .column {
+          float: left;
+          width: 50%;
+        }
+        
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="column">
+            <h2>Postgres to Redshift Query Translator</h2>
+            <form method="POST">
+                <div class="row">
+                    <div class="column">
+                        <label for="report_id">Report ID:</label><br>
+                        <input type="text" id="report_id" name="report_id" value="{{ report_id }}"><br><br>
+                    </div>
+                    <div class="column">
+                        <label for="report_name">Report Name:</label><br>
+                        <input type="text" id="report_name" name="report_name" value="{{ report_name }}"><br><br>
+                    </div>
+                </div>
+                
+                <label for="query">Enter PostgreSQL Query:</label><br>
+                <textarea id="query" name="query" rows="30" cols="100">{{ original_query }}</textarea><br><br>
+                <input type="submit" value="Translate">
+            </form>
+        </div>
+        <div class="column">
+            <h2>Translated Redshift Query:</h2>
+            {% if file_name %}
+                <label>{{file_name}}</label><br>
+            {% endif %}
+            <br>
+            <br>
+            <label for="query">Translated Query:</label><br>
+            {% if translated_query %}
+                <textarea rows="30" cols="100">{{ translated_query }}</textarea><br><br>
+
+                <form action="/download" method="POST">
+                    <input type="hidden" name="report_id" value="{{ report_id }}">
+                    <input type="hidden" name="report_name" value="{{ report_name }}">
+                    <input type="hidden" name="translated_query" value="{{ translated_query }}">
+                    <button type="submit">Download SQL File</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

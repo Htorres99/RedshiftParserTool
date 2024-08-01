@@ -17,6 +17,7 @@ def translateQuery(postgres_query):
                                 flags=re.IGNORECASE)
         
     redshift_query = formatQuery(redshift_query)
+    redshift_query = replaceIntervalFunctions(redshift_query)
 
     return redshift_query
 
@@ -31,6 +32,25 @@ def formatQuery(redshift_query):
     redshift_query = re.sub(r'(?<!^)OR\b', '\n\tOR', redshift_query)
     
     return redshift_query
+
+
+def replaceIntervalFunctions(redshift_query):
+    pattern = re.compile(r'^(.*\s)\+\s*INTERVAL\s*\'(\d+)\s(YEAR)\'(.*)$')
+    lines = redshift_query.split('\n')
+
+    for i, line in enumerate(lines):
+        line_match = pattern.match(line)
+        if line_match:
+            before_plus = re.sub(r'[^a-zA-Z0-9.]', '', line_match.group(1)) 
+            interval_num = line_match.group(2)
+            interval_unit = line_match.group(3)
+            after_interval = line_match.group(4)
+
+            lines[i] = f"\t, dateadd('{interval_unit.lower()}', {interval_num}, '{before_plus}'){after_interval}"
+            print(lines[i])
+
+    return '\n'.join(lines)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

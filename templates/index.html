@@ -38,6 +38,12 @@
                 <textarea id="query" name="query" rows="30" cols="100">{{ original_query }}</textarea><br><br>
                 <input type="submit" value="Translate">
             </form>
+            <form action="/download/original" method="POST">
+                <input type="hidden" name="report_id" value="{{ report_id }}">
+                <input type="hidden" name="report_name" value="{{ report_name }}">
+                <input type="hidden" name="original_query" value="{{ original_query }}">
+                <button type="submit">Download Original SQL File</button>
+            </form>
         </div>
         <div class="column">
             <h2>Translated Redshift Query:</h2>
@@ -54,7 +60,7 @@
                     <input type="hidden" name="report_id" value="{{ report_id }}">
                     <input type="hidden" name="report_name" value="{{ report_name }}">
                     <input type="hidden" name="translated_query" value="{{ translated_query }}">
-                    <button type="submit">Download SQL File</button>
+                    <button type="submit">Download Redshift SQL File</button>
                 </form>
             {% endif %}
         </div>

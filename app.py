@@ -49,7 +49,7 @@ def index():
                            original_query=original_query, 
                            report_id=report_id, 
                            report_name=report_name,
-                           file_name=f"Redshift-{report_id}-{report_name}.sql"
+                           file_name=f"{report_id}-{report_name}-RV.sql"
                            )
 
 
@@ -58,8 +58,8 @@ def downloadQuery():
     report_id = request.form['report_id']
     report_name = request.form['report_name']
     translated_query = request.form['translated_query']
+    file_name = f"{report_id}-{report_name}-RV.sql"
 
-    file_name = f"Redshift-{report_id}-{report_name}.sql"
     return send_file(
         io.BytesIO(translated_query.encode()),
         as_attachment=True,
@@ -67,6 +67,19 @@ def downloadQuery():
         mimetype='text/sql'
     )
 
+@app.route('/download/original', methods=['POST'])
+def downloadOriginalQuery():
+    report_id = request.form['report_id']
+    report_name = request.form['report_name']
+    original_query = request.form['original_query']
+    file_name = f"{report_id}-{report_name}-Original.sql"
+
+    return send_file(
+        io.BytesIO(original_query.encode()),
+        as_attachment=True,
+        download_name=file_name,
+        mimetype='text/sql'
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)

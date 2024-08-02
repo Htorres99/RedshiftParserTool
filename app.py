@@ -70,7 +70,7 @@ def checkAssert(redshift_query):
 
     # Break the original query into lines
     lines = redshift_query.splitlines()
-
+    
     if lines[0] == line1 and lines[1] == line2:
         lines[0] = replace_line1
         lines[1] = replace_line2
@@ -168,6 +168,11 @@ def bulkTranslate():
                 
                 file_name, file_ext = os.path.splitext(original_filename)
                 file_name = original_filename.split('/', 1)[-1]
+
+                if '-RV' in file_name:
+                    print(f"Skipping file: {file_name} (already processed)")
+                    continue
+
                 print(f"FILE: {file_name} \nEXT : {file_ext}")
 
                 # Ensure directory structure is maintained

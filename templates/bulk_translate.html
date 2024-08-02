@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postgres to Redshift Query Translator</title>
+    <style>
+        .column {
+            float: left;
+            width: 50%;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .button {
+            background-color: #008CBA; /* Blue */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .image {
+            width: 5%;
+            height: auto;
+            display: block;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="column">
+            <div class="link">
+                <a href="{{ url_for('index') }}" class="button">Main</a>
+            </div>
+        </div>
+        <div class="column">
+            <img src="static/Simpat-logo-white.svg" alt="Avatar" class="image">
+        </div>
+        <br>
+    </div>
+    <div class="row">
+        <div class="column">
+            <h1>SQL Translation Tool</h1>
+            <form action="/bulk_translate" method="post" enctype="multipart/form-data">
+                <label for="folder_input">Select a Folder:</label><br>
+                <div class="row">
+                    <input type="file" name="files" multiple webkitdirectory directory>
+                </div>
+                <br><br>
+                <div class="row">
+                    <button type="submit" class="button">Translate Queries</button>    
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

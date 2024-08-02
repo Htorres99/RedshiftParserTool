@@ -16,9 +16,38 @@
           display: table;
           clear: both;
         }
+
+        .button {
+          background-color: #008CBA; /* Blue */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+        }
+
+        .image {
+          width: 5%;
+          height: auto;
+          display: block;
+          margin-left: auto;
+        }
     </style>
 </head>
 <body>
+    <div class="row">
+        <div class="column">
+            <div class="link">
+                <a href="{{ url_for('bulkTranslate') }}" class="button">Bulk Translate</a>
+            </div>
+        </div>
+        <div class="column">
+            <img src="static/Simpat-logo-white.svg" alt="Simat Tech" class="image">
+        </div>
+        <br>
+    </div>
     <div class="row">
         <div class="column">
             <h2>Postgres to Redshift Query Translator</h2>
@@ -36,13 +65,13 @@
                 
                 <label for="query">Enter PostgreSQL Query:</label><br>
                 <textarea id="query" name="query" rows="30" cols="100">{{ original_query }}</textarea><br><br>
-                <input type="submit" value="Translate">
+                <input type="submit" value="Translate" class="button"><br><br>
             </form>
             <form action="/download/original" method="POST">
                 <input type="hidden" name="report_id" value="{{ report_id }}">
                 <input type="hidden" name="report_name" value="{{ report_name }}">
                 <input type="hidden" name="original_query" value="{{ original_query }}">
-                <button type="submit">Download Original SQL File</button>
+                <button type="submit" class="button">Download Original SQL File</button>
             </form>
         </div>
         <div class="column">
@@ -60,7 +89,7 @@
                     <input type="hidden" name="report_id" value="{{ report_id }}">
                     <input type="hidden" name="report_name" value="{{ report_name }}">
                     <input type="hidden" name="translated_query" value="{{ translated_query }}">
-                    <button type="submit">Download Redshift SQL File</button>
+                    <button type="submit" class="button">Download Redshift SQL File</button>
                 </form>
             {% endif %}
         </div>

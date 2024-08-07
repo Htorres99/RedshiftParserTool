@@ -39,7 +39,7 @@ def formatQuery(redshift_query):
     # Add a tab to lines starting with And or Or
     redshift_query = re.sub(r'^\s*(AND|OR)\b', r'\t\1', redshift_query, flags=re.MULTILINE)
     # Replace occurrences of 'OR' in lines, not at the start, with line break, tab, and 'OR'
-    redshift_query = re.sub(r'(?<!^\s{2,})\bOR\b', '\n\tOR', redshift_query, flags=re.MULTILINE)
+    redshift_query = re.sub(r'(^|\n)(\s{2,})?(OR)', '\n\tOR', redshift_query, flags=re.MULTILINE)
     # Replace occurrences CONCAT_WS
     redshift_query = replaceConcatWSFunctions(redshift_query)
 

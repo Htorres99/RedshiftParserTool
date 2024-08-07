@@ -19,7 +19,8 @@ def translateQuery(postgres_query):
     redshift_query = checkAssert(redshift_query)
 
     for postgres_word, redshift_word in RESERVED_WORDS_MAPPING.items():
-        redshift_query = re.sub(r'\b' + re.escape(postgres_word) + r'\b', 
+        pattern = r'\b' + re.escape(postgres_word) + r'\b'
+        redshift_query = re.sub(pattern, 
                                 redshift_word, 
                                 redshift_query, 
                                 flags=re.IGNORECASE)
@@ -38,10 +39,10 @@ def formatQuery(redshift_query):
     # Add a tab to lines starting with And or Or
     redshift_query = re.sub(r'^\s*(AND|OR)\b', r'\t\1', redshift_query, flags=re.MULTILINE)
     # Replace occurrences of 'OR' in lines, not at the start, with line break, tab, and 'OR'
-    redshift_query = re.sub(r'(?<!^)OR\b', '\n\tOR', redshift_query)
+    redshift_query = re.sub(r'(?<!^)\bOR\b', '\n\tOR', redshift_query)
     # Replace occurrences CONCAT_WS
     redshift_query = replaceConcatWSFunctions(redshift_query)
-    
+
     return redshift_query
 
 
@@ -94,6 +95,7 @@ def replaceValuesFunctions(redshift_query):
 
     select_pattern = re.compile(r"^(.*\s)SELECT\s+\w+\.\*\s+FROM\s+\(\s*VALUES\s+\((?:\s*\d+\s*,\s*'[^']*'\s*\)\s*,?)+\)\s*\)\s+AS\s+\w+\(\s*\w+\s*,\s*\w+\s*\)")
     return None
+
 
 def replaceConcatWSFunctions(redshift_query):
     print("Replace Concat_WS")
